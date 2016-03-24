@@ -29,6 +29,7 @@ import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -50,8 +51,16 @@ public class EncryptedOutgoingMessage {
     byte[]        plaintext  = outgoingMessage.toByteArray();
     SecretKeySpec cipherKey  = getCipherKey (signalingKey);
     SecretKeySpec macKey     = getMacKey(signalingKey);
-
-    this.serialized           = getCiphertext(plaintext, cipherKey, macKey);
+    try {
+      Field field = Class.forName("javax.crypto.JceSecurity").
+              getDeclaredField("isRestricted");
+      field.setAccessible(true);
+      field.set(null, java.lang.Boolean.FALSE);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+   this.serialized           = getCiphertext(plaintext, cipherKey, macKey);
+   // this.serialized =  plaintext;
     this.serializedAndEncoded = Base64.encodeBytes(this.serialized);
   }
 
@@ -89,7 +98,9 @@ public class EncryptedOutgoingMessage {
     } catch (InvalidKeyException e) {
       logger.warn("Invalid Key", e);
       throw new CryptoEncodingException("Invalid key!");
+
     }
+
   }
 
   private SecretKeySpec getCipherKey(String signalingKey) throws CryptoEncodingException {

@@ -3,7 +3,7 @@ package org.whispersystems.textsecuregcm.websocket;
 import org.whispersystems.textsecuregcm.storage.PubSubManager;
 import org.whispersystems.websocket.session.WebSocketSessionContext;
 import org.whispersystems.websocket.setup.WebSocketConnectListener;
-
+//[LC] here the socket connection logic as listener this class
 public class ProvisioningConnectListener implements WebSocketConnectListener {
 
   private final PubSubManager pubSubManager;

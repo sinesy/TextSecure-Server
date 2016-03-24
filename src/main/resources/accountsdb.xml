@@ -118,7 +118,7 @@
             </column>
         </createTable>
 
-        <createTable tableName="messages">
+        <!--createTable tableName="messages">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -139,7 +139,7 @@
         <createIndex tableName="messages" indexName="messages_account_and_device">
             <column name="account_id"/>
             <column name="device_id"/>
-        </createIndex>
+        </createIndex-->
 
     </changeSet>
 
