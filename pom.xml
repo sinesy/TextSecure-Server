@@ -42,6 +42,11 @@
             <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>javax-websocket-server-impl</artifactId>
+                <version>9.1.0.M0</version>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
             <version>${dropwizard.version}</version>
