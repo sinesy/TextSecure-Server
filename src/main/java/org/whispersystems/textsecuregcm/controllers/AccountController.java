@@ -100,6 +100,16 @@ public class AccountController {
     }
   }
 
+  /**[LC]
+   * This part generate the verification code. Store it in memcache (redis?) for verification request
+   * if the account is in
+   * @param transport
+   * @param number
+   * @param client
+   * @return
+   * @throws IOException
+   * @throws RateLimitExceededException
+     */
   @Timed
   @GET
   @Path("/{transport}/code/{number}")

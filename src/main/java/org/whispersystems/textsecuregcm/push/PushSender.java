@@ -42,7 +42,8 @@ public class PushSender implements Managed {
   private final Logger logger = LoggerFactory.getLogger(PushSender.class);
 
   private static final String APN_PAYLOAD = "{\"aps\":{\"sound\":\"default\",\"badge\":%d,\"alert\":{\"loc-key\":\"APN_Message\"}}}";
-
+  //private static final String APN_PAYLOAD = "{\"aps\":{\"sound\":\"default\",\"badge\":%d,\"alert\":\"ciao mi son signal dea sinesy\"}}";
+  
   private final ApnFallbackManager         apnFallbackManager;
   private final PushServiceClient          pushServiceClient;
   private final WebsocketSender            webSocketSender;
@@ -124,18 +125,18 @@ public class PushSender implements Managed {
   private void sendApnNotification(Account account, Device device, int messageQueueDepth) {
     ApnMessage apnMessage;
 
-    if (!Util.isEmpty(device.getVoipApnId())) {
-      apnMessage = new ApnMessage(device.getVoipApnId(), account.getNumber(), (int)device.getId(),
-                                  String.format(APN_PAYLOAD, messageQueueDepth),
-                                  true, System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(30));
-
-      apnFallbackManager.schedule(new WebsocketAddress(account.getNumber(), device.getId()),
-                                  new ApnFallbackTask(device.getApnId(), apnMessage));
-    } else {
+//    if (!Util.isEmpty(device.getVoipApnId())) {
+//      apnMessage = new ApnMessage(device.getVoipApnId(), account.getNumber(), (int)device.getId(),
+//                                  String.format(APN_PAYLOAD, messageQueueDepth),
+//                                  true, System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(30));
+//
+//      apnFallbackManager.schedule(new WebsocketAddress(account.getNumber(), device.getId()),
+//                                  new ApnFallbackTask(device.getApnId(), apnMessage));
+//    } else {
       apnMessage = new ApnMessage(device.getApnId(), account.getNumber(), (int)device.getId(),
                                   String.format(APN_PAYLOAD, messageQueueDepth),
                                   false, ApnMessage.MAX_EXPIRATION);
-    }
+    //}
 
     try {
       pushServiceClient.send(apnMessage);
